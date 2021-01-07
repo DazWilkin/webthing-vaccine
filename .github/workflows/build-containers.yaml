@@ -1,0 +1,36 @@
+name: build-containers
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  device:
+    name: devices
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        type:
+          - "client"
+          - "server"
+    env:
+      REPO: dazwilkin/webthing-vaccine
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup
+        uses: docker/setup-buildx-action@v1
+      - name: login
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR }}
+      - name: build-push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./deployment/Dockerfile.${{ matrix.type }}
+          tags: ghcr.io/${{ env.REPO }}-${{ matrix.type }}:${{ github.sha }}
+          push: true
