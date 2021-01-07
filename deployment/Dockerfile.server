@@ -1,0 +1,40 @@
+ARG PLATFORM=amd64
+ARG PROJECT="webthing-vaccine"
+
+FROM ${PLATFORM}/rust:1.47-slim as build
+
+ARG PROJECT
+
+RUN USER=root cargo new --bin ${PROJECT}
+
+WORKDIR /${PROJECT}
+
+# Saves repeatedly building the dependencies
+# Because the project doesn't use main, add it here, purely as a throwaway
+COPY ./Cargo.toml ./Cargo.toml
+RUN echo "fn main() {}" > ./src/main.rs
+RUN cargo build --release
+RUN rm ./src/*.rs
+
+RUN ls -l ./target/release/deps
+
+# Replace hyphens with underscores in ${PROJECT}
+RUN ls -la ./target/release/deps/
+RUN rm ./target/release/deps/$(echo ${PROJECT} | tr '-' '_')*
+
+COPY ./src/main.rs ./src
+
+RUN cargo build --release
+
+
+FROM ${PLATFORM}/debian:buster-slim
+
+ARG PROJECT
+
+COPY --from=build /${PROJECT}/target/release/${PROJECT} /server
+
+LABEL org.opencontainers.image.source https://github.com/DazWilkin/${PROJECT}
+
+ENV RUST_LOG=debug
+
+ENTRYPOINT ["/server"]
