@@ -200,5 +200,94 @@ Yields:
 ]
 ```
 
+## Client (Golang)
 
+```bash
+HOST="localhost"
+PORT="8888"
+```
 
+Either:
+
+```bash
+go run ./golang/cmd --host=${HOST} --port=${PORT}
+```
+
+Or:
+
+```bash
+TAG="$(git rev-parse HEAD)"
+
+docker run \
+--name=client \
+--rm --interactive --tty \
+--net=host \
+ghcr.io/dazwilkin/webthing-vaccine-client:${TAG} \
+  --host=${HOST} \
+  --port=${PORT}
+```
+
+> **NOTE** The Rust server currently only serves on `:8888` so the client's port is effectively constant
+
+Client repeatedly iterates over API calls (`/`, `/x`, `/x/properites`, `/x/properties/longitude`) then sleeps
+
+```console
+[api:NewClient] Creating client: localhost:8888
+longitude[api:GetThings] Entered
+longitude{Context:https://iot.mozilla.org/schemas AtType:[] Actions:{} Base:http://localhost:8888/0 Description:IIoT Vaccine Refrigerator Events:{} HREF:/0 ID:refrigerator Links:[{HREF:/0/properties Rel:properties} {HREF:/0/actions Rel:actions} {HREF:/0/events Rel:events} {HREF:ws://localhost:8888/0 Rel:alternate}] Properties:map[temperature:{AtType:TempProperty Description:Temperature of the Refrigerator Links:[{HREF:/0/properties/temperature Rel:property}] Maximum:0 Minimum:-273 Title:Temperature TType:number}] Title:Vaccine Refrigerator}
+longitude{Context:https://iot.mozilla.org/schemas AtType:[] Actions:{} Base:http://localhost:8888/1 Description:Truck Events:{} HREF:/1 ID:truck Links:[{HREF:/1/properties Rel:properties} {HREF:/1/actions Rel:actions} {HREF:/1/events Rel:events} {HREF:ws://localhost:8888/1 Rel:alternate}] Properties:map[latitude:{AtType:LatitudeProperty Description:Latitude of the Truck Links:[{HREF:/1/properties/latitude Rel:property}] Maximum:90 Minimum:-90 Title:Latitude TType:number} longitude:{AtType:LongitudeProperty Description:Longitude of the Truck Links:[{HREF:/1/properties/longitude Rel:property}] Maximum:180 Minimum:-180 Title:Longitude TType:number}] Title:Truck}
+longitude[api:GetThing:0] Entered
+longitude{https://iot.mozilla.org/schemas [] {} http://localhost:8888/0 IIoT Vaccine Refrigerator {}  refrigerator [{/0/properties properties} {/0/actions actions} {/0/events events} {ws://localhost:8888/0 alternate}] map[temperature:{TempProperty Temperature of the Refrigerator [{/0/properties/temperature property}] 0 -273 Temperature number}] Vaccine Refrigerator}
+longitude[api:GetProperties:1] Entered
+longitudelatitude: 47.51549530029297
+longitudelongitude: -121.44660949707031
+longitude[api:GetProperty:1] Entered: longitude
+longitudemap[longitude:-121.44660949707031]
+longitude[api:GetThings] Entered
+longitude{Context:https://iot.mozilla.org/schemas AtType:[] Actions:{} Base:http://localhost:8888/0 Description:IIoT Vaccine Refrigerator Events:{} HREF:/0 ID:refrigerator Links:[{HREF:/0/properties Rel:properties} {HREF:/0/actions Rel:actions} {HREF:/0/events Rel:events} {HREF:ws://localhost:8888/0 Rel:alternate}] Properties:map[temperature:{AtType:TempProperty Description:Temperature of the Refrigerator Links:[{HREF:/0/properties/temperature Rel:property}] Maximum:0 Minimum:-273 Title:Temperature TType:number}] Title:Vaccine Refrigerator}
+longitude{Context:https://iot.mozilla.org/schemas AtType:[] Actions:{} Base:http://localhost:8888/1 Description:Truck Events:{} HREF:/1 ID:truck Links:[{HREF:/1/properties Rel:properties} {HREF:/1/actions Rel:actions} {HREF:/1/events Rel:events} {HREF:ws://localhost:8888/1 Rel:alternate}] Properties:map[latitude:{AtType:LatitudeProperty Description:Latitude of the Truck Links:[{HREF:/1/properties/latitude Rel:property}] Maximum:90 Minimum:-90 Title:Latitude TType:number} longitude:{AtType:LongitudeProperty Description:Longitude of the Truck Links:[{HREF:/1/properties/longitude Rel:property}] Maximum:180 Minimum:-180 Title:Longitude TType:number}] Title:Truck}
+longitude[api:GetThing:0] Entered
+longitude{https://iot.mozilla.org/schemas [] {} http://localhost:8888/0 IIoT Vaccine Refrigerator {}  refrigerator [{/0/properties properties} {/0/actions actions} {/0/events events} {ws://localhost:8888/0 alternate}] map[temperature:{TempProperty Temperature of the Refrigerator [{/0/properties/temperature property}] 0 -273 Temperature number}] Vaccine Refrigerator}
+longitude[api:GetProperties:1] Entered
+longitudelatitude: 46.927162170410156
+longitudelongitude: -122.0382080078125
+longitude[api:GetProperty:1] Entered: longitude
+longitudemap[longitude:-122.0382080078125]
+```
+
+## Akri
+
+```console
+[zeroconf:main] Entered
+[zeroconf:new] Entered
+[zeroconf:main] Service: kind: _webthing._tcp
+name: Vaccine Things
+host: akri.local
+addr: 10.138.0.2
+port: 8888
+TXTs:
+  AKRI_ZEROCONF_DEVICE_PATH: /
+
+[zeroconf:main:loop] Sleep
+[zeroconf:main:loop] check_device(Service { kind: "_webthing._tcp", name: "Vaccine Things", host: "akri.local", addr: "10.138.0.2", port: 8888, txts: Some({"AKRI_ZEROCONF_DEVICE_PATH": "/"}) })
+[zeroconf:read_device] Entered: Service { kind: "_webthing._tcp", name: "Vaccine Things", host: "akri.local", addr: "10.138.0.2", port: 8888, txts: Some({"AKRI_ZEROCONF_DEVICE_PATH": "/"}) }
+[zeroconf:main:loop] Sleep
+[zeroconf:main:loop] check_device(Service { kind: "_webthing._tcp", name: "Vaccine Things", host: "akri.local", addr: "10.138.0.2", port: 8888, txts: Some({"AKRI_ZEROCONF_DEVICE_PATH": "/"}) })
+[zeroconf:read_device] Entered: Service { kind: "_webthing._tcp", name: "Vaccine Things", host: "akri.local", addr: "10.138.0.2", port: 8888, txts: Some({"AKRI_ZEROCONF_DEVICE_PATH": "/"}) }
+[zeroconf:main:loop] Sleep
+```
+
+And:
+
+```bash
+curl --silent akri.local:8888/0/properties/temperature | jq .
+{
+  "temperature": -80.00003051757812
+}
+
+curl --silent akri.local:8888/1/properties | jq .
+{
+  "latitude": 48.516845703125,
+  "longitude": -122.60163116455078
+}
+```
