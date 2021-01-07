@@ -1,7 +1,20 @@
 # WebThings Vaccine Distribution Simulator
 
-+ Refrigerator(s)
-+ Truck(s)
+[Akri Scenario: Distribution of Vaccines](https://docs.google.com/document/d/1zNWUzaTuvTPcHsH_GNlNh6p1XN2QDZF5sfcKuFTknjU/edit#heading=h.9m8u7fba07v)
+
+![Things](./images/things.png)
+
+Refrigerators (currently) have a temperature sensor:
+
+![Refrigerator](./images/refrigerator.png)
+
+Truck have latitude and longitude:
+
+![Truck](./images/truck.png)
+
+## mDNS|DNS-SD
+
+WebThings devices are published as `_webthing._tcp` services.
 
 ## Gateway
 
