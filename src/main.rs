@@ -47,6 +47,7 @@ impl Refrigerator {
         let mut thing = BaseThing::new(
             "refrigerator".to_owned(),
             "Vaccine Refrigerator".to_owned(),
+            // TODO(dazwilkin) What goes here?
             Some(vec![]),
             Some("IIoT Vaccine Refrigerator".to_owned()),
         );
@@ -56,7 +57,10 @@ impl Refrigerator {
             "@type":"TempProperty",
             "title":"Temperature",
             "type":"number",
-            "description":"Temperature of the Refrigerator"
+            "description":"Temperature of the Refrigerator",
+            "minimum": -273.0,
+            "unit":"°C",
+
         });
         let temp_description = temp_description.as_object().unwrap().clone();
         thing.add_property(Box::new(BaseProperty::new(
@@ -94,6 +98,7 @@ impl Truck {
         let mut thing = BaseThing::new(
             "truck".to_owned(),
             "Truck".to_owned(),
+            // TODO(dazwilkin) What goes here?
             Some(vec![]),
             Some("Truck".to_owned()),
         );
@@ -105,6 +110,8 @@ impl Truck {
             "title":"Latitude",
             "type":"number",
             "description":"Latitude of the Truck",
+            "minimum": -90.0,
+            "maximum": 90.0,
         });
         let latitude_description = latitude_description.as_object().unwrap().clone();
         thing.add_property(Box::new(BaseProperty::new(
@@ -119,6 +126,8 @@ impl Truck {
             "title":"Longitude",
             "type":"number",
             "description":"Longitude of the Truck",
+            "minimum": -180.0,
+            "maximum": 180.0,
         });
         let longitude_description = longitude_description.as_object().unwrap().clone();
         thing.add_property(Box::new(BaseProperty::new(
