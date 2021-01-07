@@ -16,7 +16,7 @@ type Client struct {
 
 // NewClient is a function creates a new Client
 func NewClient(c *http.Client, host string) *Client {
-	log.Println("[api:NewClient] Creating client: %s", host)
+	log.Printf("[api:NewClient] Creating client: %s", host)
 	return &Client{
 		client: c,
 		host:   host,
