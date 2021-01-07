@@ -37,6 +37,45 @@ webthingsio/gateway:latest
 cargo run
 ```
 
+Running with `RUST_LOG=debug`, you'll get the random walk details of the refrigerator temperature and truck latitude|longitude:
+
+```bash
+RUST_LOG=debug cargo run
+```
+
+Yields:
+
+```console
+[2021-01-07T00:54:56Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00003051757812
+[2021-01-07T00:54:57Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00008392333984
+[2021-01-07T00:54:58Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (47.12375259399414,-122.4013442993164)
+[2021-01-07T00:54:58Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00000762939453
+[2021-01-07T00:54:59Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00004577636719
+[2021-01-07T00:55:00Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99994659423828
+[2021-01-07T00:55:00Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (48.146942138671875,-122.58728790283203)
+[2021-01-07T00:55:01Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99998474121094
+[2021-01-07T00:55:02Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00007629394531
+[2021-01-07T00:55:03Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (48.414024353027344,-122.95532989501953)
+[2021-01-07T00:55:03Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99998474121094
+[2021-01-07T00:55:04Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00005340576172
+[2021-01-07T00:55:05Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99992370605469
+[2021-01-07T00:55:05Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (47.09706115722656,-121.50337219238281)
+[2021-01-07T00:55:06Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00006103515625
+[2021-01-07T00:55:07Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00000762939453
+[2021-01-07T00:55:08Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (47.62933349609375,-122.49585723876953)
+[2021-01-07T00:55:08Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99993133544922
+[2021-01-07T00:55:09Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99993896484375
+[2021-01-07T00:55:10Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00005340576172
+[2021-01-07T00:55:10Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (48.0540885925293,-122.32648468017578)
+[2021-01-07T00:55:11Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00006866455078
+[2021-01-07T00:55:12Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00005340576172
+[2021-01-07T00:55:13Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (47.66055679321289,-122.80746459960938)
+[2021-01-07T00:55:13Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99994659423828
+[2021-01-07T00:55:14Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -80.00007629394531
+[2021-01-07T00:55:15Z TRACE vaccine_things] [main::thread::Refrigerator] Refrigerator Temp(c): -79.99990844726562
+[2021-01-07T00:55:15Z TRACE vaccine_things] [main::thread::Truck] Truck's location: (47.87299728393555,-121.82833099365234)
+```
+
 Then:
 
 ```bash
