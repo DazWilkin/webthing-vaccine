@@ -38,6 +38,8 @@ impl ValueForwarder for TempValueForwarder {
         Ok(value)
     }
 }
+
+// TODO(dazwilkin) Refrigerator properties really ought to be on the struct
 struct Refrigerator;
 impl Refrigerator {
     fn new() -> Refrigerator {
