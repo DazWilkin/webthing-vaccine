@@ -18,7 +18,7 @@ jobs:
       REPO: dazwilkin/webthing-vaccine
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
       - name: setup
         uses: docker/setup-buildx-action@v1
       - name: login
